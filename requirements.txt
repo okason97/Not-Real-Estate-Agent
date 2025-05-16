@@ -1,0 +1,11 @@
+langgraph
+langchain_anthropic
+tavily-python
+langchain_community
+langchain_openai
+selenium
+webdriver-manager
+beautifulsoup4
+ipykernel
+python-dotenv
+langchain_ollama

@@ -1,0 +1,20 @@
+[project]
+name = "buscamidepto-scrapping"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.13.4",
+    "ipykernel>=6.16.2",
+    "langchain-anthropic>=0.3.13",
+    "langchain-community>=0.3.24",
+    "langchain-ollama>=0.3.3",
+    "langchain-openai>=0.3.17",
+    "langgraph>=0.4.5",
+    "python-dotenv>=1.1.0",
+    "selenium>=4.32.0",
+    "tavily-python>=0.7.2",
+    "unstructured>=0.17.2",
+    "webdriver-manager>=4.0.2",
+]
