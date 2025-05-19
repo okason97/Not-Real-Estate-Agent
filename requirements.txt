@@ -1342,3 +1342,5 @@ zstandard==0.23.0 \
     # via
     #   buscamidepto-scrapping
     #   langsmith
+aws-sam-cli
+streamlit

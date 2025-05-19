@@ -20,15 +20,8 @@ This application uses a state graph architecture with the following components:
 
 ## 📋 Prerequisites
 
-- Python 3.12+
-- Required Python packages (install via `pip install -r requirements.txt`):
-  - langchain
-  - pydantic
-  - python-dotenv
-  - selenium
-  - ollama
-  - beautifulsoup4
-  - webdriver-manager
+- Python 3.13+
+- Required Python packages (install via `pip install -r requirements.txt`)
 - Ollama gemma3:12b and apropiate hardware
 
 
@@ -42,7 +35,7 @@ This application uses a state graph architecture with the following components:
 
 2. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   uv add -r requirements.txt
    ```
 
 3. Set up environment variables (Not used now, necessary if more models are added):
@@ -63,6 +56,18 @@ This application uses a state graph architecture with the following components:
    ```bash
    python main.py
    ```
+
+5. Build the Docker image:
+   ```bash
+   docker build --provenance=false --platform linux/amd64 -t nrea .
+   ```
+
+5. Start a local API Gateway at http://127.0.0.1:3000/ using SAM (Serverless Application Model):
+   ```bash
+   sam local start-api
+   ```
+
+
 
 ## 💬 Example Usage
 

@@ -193,20 +193,52 @@ class LLM():
                     PROPERTY LISTINGS:
                     {json.dumps(state["properties"], indent=2, ensure_ascii=False)}
 
-                    Please analyze these properties based on the user's query. Focus on the following points:
+                    Generate a machine-readable analysis with the following schema:
 
-                    - Which properties best match the user's criteria
-                    - Price comparison and value assessment
-                    - Pros and cons of the locations
-                    - Notable features or amenities
-                    - Any other relevant observations
+                        1. MARKET_OVERVIEW:
+                        • Price_range: [minimum]-[maximum] ARS/USD
+                        • Average_price_per_sqm: [value] ARS/USD
+                        • Market_context: [brief market description]
 
-                    Present your analysis in a clear, structured, and easy-to-understand format.
+                        2. PROPERTY_MATCHES:
+                        • For each relevant property:
+                            - property_id: [ID from listings]
+                            - match_reasons: [comma-separated list of key matching criteria]
+                            - price_value_assessment: [below_market/at_market/premium]
+                            - location_advantages: [comma-separated list of location advantages, like proximity to amenities, safety, and transportation)]
+                            - location_concerns: [comma-separated list]
+                            - location_quality: [numerical 1-10]
+                            - standout_features: [comma-separated list]
+                            - concerns: [comma-separated list]
+                            - match_score: [numerical 1-10]
+
+                        3. COMPARATIVE_INSIGHTS:
+                        • best_value: [property_id]
+                        • best_location: [property_id]
+                        • best_condition: [property_id]
+                        • best_investment: [property_id]
+                        • unique_opportunity: [property_id, reason]
+
+                    Format Requirements:
+                    - Use consistent key names and data types
+                    - Ensure all property references use IDs from the original listings
+                    - Maintain a structured, machine-parsable format
+                    - Avoid marketing language or subjective claims
+                    - Include only factual data derived from the listings
+                    - Omit subjective claims, recommendations, questions or commentary
+                    - Do not introduce properties not included in the provided listings
+                    - Do not ask follow-up questions or add closing statements
+                    - Present facts without recommendations for further action
                 """
             },
             {
                 "role": "user",
-                "content": last_message.content
+                "content": f"""
+                    PROPERTY LISTINGS:
+                    {json.dumps(state["properties"], indent=2, ensure_ascii=False)}
+                    QUERY:
+                    {last_message.content}
+                """
             }
         ])
 
@@ -219,28 +251,47 @@ class LLM():
             {
                 "role": "system",
                 "content": f"""
-                    Based on the following analysis of real estate listings in La Plata and the user query:
+                    Based on the following ANALYSIS of real estate PROPERTY LISTINGS and the user QUERY:
                     
-                    PROPERTY LISTINGS:
-                    {json.dumps(state["properties"], indent=2, ensure_ascii=False)}
-
                     ANALYSIS:
                     {state["analysis"][0].content}
 
-                    Generate between 3 and 5 specific recommendations for the user. For each recommendation, provide:
+                    PROPERTY LISTINGS:
+                    {json.dumps(state["properties"], indent=2, ensure_ascii=False)}
 
-                    -The URL of the property.
+                    Generate 3-5 personalized property recommendations that best match the user's criteria. For each recommendation, provide:
 
-                    -A brief justification (1–2 sentences).
+                        1. Property Name: [Title of the property]
+                        2. Property URL: [Direct link to the listing]
+                        3. Perfect Match: [1-2 sentences explaining why this property specifically addresses the user's needs]
+                        4. Standout Features:
+                        • [3 key advantages/unique selling points]
+                        • [Include specific details like square footage, amenities, or location benefits]
+                        5. Considerations:
+                        • [2-3 potential drawbacks or limitations]
+                        • [Be honest but constructive about any compromises]
 
-                    -Key advantages of this property.
-
-                    -Key disadvantages of this property.
-                """
+                    Presentation Guidelines:
+                    - Format each recommendation in a clear, visually distinct section
+                    - Only recommend properties from the provided PROPERTY LISTINGS
+                    - Present facts objectively without marketing language
+                    - Focus exclusively on the properties' merits relative to the user's requirements
+                    - Provide accurate information based solely on the available data
+                    - Do not ask follow-up questions
+                    - Do not include disclaimers, suggestions for further assistance, or closing statements
+                    
+                    """
             },
             {
                 "role": "user",
-                "content": last_message.content
+                "content": f"""
+                    ANALYSIS:
+                    {state["analysis"][0].content}
+                    PROPERTY LISTINGS:
+                    {json.dumps(state["properties"], indent=2, ensure_ascii=False)}
+                    QUERY:
+                    {last_message.content}
+                """
             }
         ])
         
