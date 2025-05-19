@@ -7,6 +7,11 @@ wheels/
 *.egg-info
 *.html
 *.json
+packages/
+.pytest_cache/
+.vscode/
+event.json
+response.json
 
 # Virtual environments
 .venv
