@@ -1,0 +1,16 @@
+beautifulsoup4
+fastapi
+langchain
+langgraph
+mangum
+ollama
+openai
+python-dotenv
+pydantic
+uvicorn
+aws-sam-cli
+streamlit
+ipykernel
+langchain_ollama
+langchain_openai
+langchain_anthropic

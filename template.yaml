@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  MyDockerLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: my-docker-lambda
+      PackageType: Image
+      ImageUri: nrea
+      MemorySize: 3072  
+      Timeout: 2000
+      Environment:
+        Variables:
+          OLLAMA_HOST: "host.docker.internal:11434"
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: post
