@@ -6,9 +6,12 @@ Resources:
     Properties:
       FunctionName: my-docker-lambda
       PackageType: Image
-      ImageUri: fastapi-app
-      MemorySize: 128
-      Timeout: 30
+      ImageUri: nrea
+      MemorySize: 3072  
+      Timeout: 2000
+      Environment:
+        Variables:
+          OLLAMA_HOST: "host.docker.internal:11434"
       Events:
         ApiEvent:
           Type: Api

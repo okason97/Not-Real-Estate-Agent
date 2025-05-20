@@ -38,7 +38,7 @@ This application uses a state graph architecture with the following components:
    uv add -r requirements.txt
    ```
 
-3. Set up environment variables (Not used now, necessary if more models are added):
+3. Set up environment variables (Not used now, necessary if you want to use other models):
    ```bash
    # Create .env file
    touch .env
@@ -52,21 +52,29 @@ This application uses a state graph architecture with the following components:
    ollama pull gemma3:12b
    ```
 
-5. Run the application:
+### Running
+
+1. Run the notebook:
    ```bash
-   python main.py
+   code agent.ipynb
    ```
 
-5. Build the Docker image:
+### Using the app
+
+1. Build the Docker image:
    ```bash
    docker build --provenance=false --platform linux/amd64 -t nrea .
    ```
 
-5. Start a local API Gateway at http://127.0.0.1:3000/ using SAM (Serverless Application Model):
+2. Start a local API Gateway at http://127.0.0.1:3000/ using SAM (Serverless Application Model):
    ```bash
    sam local start-api
    ```
 
+2. Run the web GUI:
+   ```bash
+   streamlit run app.py
+   ```
 
 
 ## 💬 Example Usage

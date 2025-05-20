@@ -7,6 +7,9 @@ import re
 from bs4 import BeautifulSoup
 from math import ceil
 from app.src.state import PropertySearchParams
+import subprocess
+import random
+import time
 
 class Scrapper:
 
@@ -63,7 +66,100 @@ class Scrapper:
 
 
 class ZonaPropScrapper(Scrapper):
+    
+    def curl_scrape(self, urls, delay=2):
+        """
+        Downloads one or more webpages' HTML content using cURL to bypass bot detection.
+        Returns HTML content directly without saving to files.
 
+        Args:
+            urls (str or list): The URL or list of URLs to download
+            delay (int, optional): Delay between requests in seconds to avoid rate limiting
+
+        Returns:
+            List[str]: List of HTML content strings
+        """
+        try:            
+            
+            # Convert single URL to list
+            if isinstance(urls, str):
+                urls = [urls]
+                
+            # Common desktop browsers' user agents
+            user_agents = [
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Safari/605.1.15",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0"
+            ]
+            html_contents = []
+            
+            for idx, url in enumerate(urls):
+                # Choose a random user agent for each request
+                user_agent = random.choice(user_agents)
+                
+                print(f"Accessing webpage with cURL: {url}")
+                
+                # Build the cURL command
+                # IMPORTANT: We omit Accept-Encoding and --compressed to get uncompressed content
+                curl_command = [
+                    'curl',
+                    '-s',  # Silent mode
+                    '-L',  # Follow redirects
+                    '-H', f'User-Agent: {user_agent}',
+                    '-H', 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+                    '-H', 'Accept-Language: es-AR,es;q=0.9,en-US;q=0.8,en;q=0.7',
+                    '-H', 'Connection: keep-alive',
+                    '-H', 'Upgrade-Insecure-Requests: 1',
+                    '-H', 'Sec-Fetch-Dest: document',
+                    '-H', 'Sec-Fetch-Mode: navigate',
+                    '-H', 'Sec-Fetch-Site: none',
+                    '-H', 'Sec-Fetch-User: ?1',
+                    '-H', 'Cache-Control: max-age=0',
+                    '-H', 'Referer: https://www.google.com.ar/search?q=departamentos+alquiler+la+plata',
+                    '-H', 'DNT: 1',  # Do Not Track
+                    '--retry', '3',  # Retry 3 times on transient errors
+                    '--retry-delay', '2',  # Wait 2 seconds between retries
+                    '-m', '30',  # Timeout in seconds
+                    url
+                ]
+                
+                # Execute the cURL command and get output directly
+                result = subprocess.run(curl_command, capture_output=True, text=False)  # Note text=False for binary
+                
+                if result.returncode != 0:
+                    print(f"cURL command failed for {url} with error: {result.stderr.decode('utf-8', errors='replace')}")
+                    html_contents.append("")  # Add empty string for failed URLs
+                    continue
+                
+                # Try to decode the HTML from stdout as UTF-8
+                try:
+                    html_content = result.stdout.decode('utf-8')
+                except UnicodeDecodeError:
+                    # If UTF-8 fails, try with latin-1 which accepts any byte value
+                    html_content = result.stdout.decode('latin-1')
+                
+                if not html_content:
+                    print(f"Failed to download content or received empty response for {url}")
+                    html_contents.append("")  # Add empty string for failed URLs
+                else:
+                    # Add the HTML content to our results list
+                    html_contents.append(html_content)
+                    
+                    print(f"Successfully downloaded HTML ({len(html_content)} characters) from {url}")
+                
+                # Add delay between requests to avoid rate limiting
+                if idx < len(urls) - 1:
+                    # Add some randomization to delay to appear more human-like
+                    sleep_time = delay + random.uniform(0.5, 2.0)
+                    print(f"Waiting {sleep_time:.2f} seconds before next request...")
+                    time.sleep(sleep_time)
+            
+            return html_contents
+            
+        except Exception as e:
+            print(f"Error: {e}")
+            return []
+            
     def selenium_scrape(self, urls, output_file=None):
         """
         Downloads one or more webpages' HTML content using Selenium to bypass basic scraping protections.

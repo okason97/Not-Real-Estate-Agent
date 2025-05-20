@@ -13,7 +13,7 @@ def scrape_node(state: AgentState):
         url = sc.generate_url(query_data)
     urls = sc.generate_pagination_urls(url, 1)
 
-    htmls = sc.selenium_scrape(urls)
+    htmls = sc.curl_scrape(urls)
     properties = sc.parse_property_listings(htmls)
     return {"properties": properties}
 
