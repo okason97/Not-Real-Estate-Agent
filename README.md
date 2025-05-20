@@ -22,8 +22,9 @@ This application uses a state graph architecture with the following components:
 
 - Python 3.13+
 - Required Python packages (install via `pip install -r requirements.txt`)
+- Docker
+- AWS Serverless Application Model Command Line Interface (AWS SAM CLI) 
 - Ollama gemma3:12b and apropiate hardware
-
 
 ## 🚀 Getting Started
 
@@ -82,7 +83,6 @@ This application uses a state graph architecture with the following components:
    ```bash
    streamlit run app.py
    ```
-
 
 ## 💬 Example Usage
 
