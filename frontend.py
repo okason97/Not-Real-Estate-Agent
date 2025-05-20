@@ -1,6 +1,5 @@
 import streamlit as st
 import requests
-import json
 
 # Set up the page configuration
 st.set_page_config(page_title="Not-Real-Estate-Agent", layout="centered")

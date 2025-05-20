@@ -1,7 +1,7 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+#from selenium import webdriver
+#from selenium.webdriver.chrome.options import Options
+#from selenium.webdriver.chrome.service import Service
+#from webdriver_manager.chrome import ChromeDriverManager
 import time
 import re
 from bs4 import BeautifulSoup
@@ -12,14 +12,14 @@ import random
 import time
 
 class Scrapper:
-
-    def selenium_scrape(self, urls, output_file=None):
+    def curl_scrape(self, urls, delay=2):
         """
-        Downloads one or more webpages' HTML content using Selenium to bypass basic scraping protections.
+        Downloads one or more webpages' HTML content using cURL to bypass bot detection.
+        Returns HTML content directly without saving to files.
 
         Args:
             urls (str or list): The URL or list of URLs to download
-            output_file (str, optional): Path to save the HTML content(s). If multiple URLs, saves as numbered files.
+            delay (int, optional): Delay between requests in seconds to avoid rate limiting
 
         Returns:
             List[str]: List of HTML content strings
@@ -156,54 +156,6 @@ class ZonaPropScrapper(Scrapper):
             
             return html_contents
             
-        except Exception as e:
-            print(f"Error: {e}")
-            return []
-            
-    def selenium_scrape(self, urls, output_file=None):
-        """
-        Downloads one or more webpages' HTML content using Selenium to bypass basic scraping protections.
-
-        Args:
-            urls (str or list): The URL or list of URLs to download
-            output_file (str, optional): Path to save the HTML content(s). If multiple URLs, saves as numbered files.
-
-        Returns:
-            List[str]: List of HTML content strings
-        """
-
-        if isinstance(urls, str):
-            urls = [urls]
-
-        html_contents = []
-        try:
-            chrome_options = Options()
-            chrome_options.add_argument("--headless")
-            chrome_options.add_argument("--disable-gpu")
-            chrome_options.add_argument("--window-size=1920,1080")
-            chrome_options.add_argument("--disable-dev-shm-usage")
-            chrome_options.add_argument("--no-sandbox")
-            chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36")
-
-            driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-            driver.set_page_load_timeout(30)
-
-            for idx, url in enumerate(urls):
-                print(f"Accessing webpage: {url}")
-                driver.get(url)
-                time.sleep(5)
-                html_content = driver.page_source
-                html_contents.append(html_content)
-                if output_file:
-                    if len(urls) == 1:
-                        file_path = output_file
-                    else:
-                        file_path = f"{output_file.rsplit('.', 1)[0]}_{idx+1}.html"
-                    with open(file_path, "w", encoding="utf-8") as file:
-                        file.write(html_content)
-                    print(f"HTML content saved to {file_path} ({len(html_content)} characters)")
-            driver.quit()
-            return html_contents
         except Exception as e:
             print(f"Error: {e}")
             return []

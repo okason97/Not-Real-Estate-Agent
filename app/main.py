@@ -12,11 +12,6 @@ logger.setLevel(logging.INFO)
 app = FastAPI()
 handler = Mangum(app)
 
-@app.get("/")
-async def root() -> str:
-    return "Hello, world!"
-
-
 @app.post("/")
 async def process_input(payload: Dict[str, Any] = Body(...)) -> Dict[str, Any]:
     try:

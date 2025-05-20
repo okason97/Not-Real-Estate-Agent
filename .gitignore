@@ -2,7 +2,6 @@
 __pycache__/
 *.py[oc]
 build/
-old_nb/
 dist/
 wheels/
 *.egg-info
@@ -10,10 +9,14 @@ wheels/
 *.json
 packages/
 .pytest_cache/
-.vscode/
 event.json
 response.json
 
+.env
+.cursor/
+.vscode/
+.aws-sam/
+old_nb/
+
 # Virtual environments
 .venv
-.cursor
