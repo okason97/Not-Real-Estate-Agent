@@ -97,7 +97,7 @@ Enter a message: I'm looking for a 2-bedroom apartment to rent in La Plata, with
 - `agent.ipynb`: Notebook to try the agents
 - `frontend.py`: Serves the interactive frontend
 - `app/`: Directory containing the agents and the API code
-  - `main.py`: Contains the FastAPI behaivour
+  - `main.py`: Contains the FastAPI behaviour 
   - `src/`: Directory containing the source code
     - `scraper.py`: Contains the `Scrapper` classes for web scraping
     - `graph.py`: Contains the graph building logic
