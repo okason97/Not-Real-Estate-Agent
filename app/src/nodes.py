@@ -196,10 +196,7 @@ class LLM():
                 "content": f"""
                     You are a real estate analysis assistant specializing in properties located in La Plata, Argentina.
 
-                    PROPERTY LISTINGS:
-                    {json.dumps(state["properties"], indent=2, ensure_ascii=False)}
-
-                    Generate a machine-readable analysis with the following schema:
+                    Generate a machine-readable analysis with the following schema with no aditional text or explanation:
 
                         1. MARKET_OVERVIEW:
                         • Price_range: [minimum]-[maximum] ARS/USD
@@ -209,6 +206,7 @@ class LLM():
                         2. PROPERTY_MATCHES:
                         • For each relevant property:
                             - property_id: [ID from listings]
+                            - property_url: [Direct url to the listing]
                             - match_reasons: [comma-separated list of key matching criteria]
                             - price_value_assessment: [below_market/at_market/premium]
                             - location_advantages: [comma-separated list of location advantages, like proximity to amenities, safety, and transportation)]
@@ -259,18 +257,12 @@ class LLM():
             {
                 "role": "system",
                 "content": f"""
-                    Based on the following ANALYSIS of real estate PROPERTY LISTINGS and the user QUERY:
+                    Based on an ANALYSIS of real estate PROPERTY LISTINGS, the PROPERTY LISTINGS and the user QUERY:
                     
-                    ANALYSIS:
-                    {state["analysis"][0].content}
-
-                    PROPERTY LISTINGS:
-                    {json.dumps(state["properties"], indent=2, ensure_ascii=False)}
-
                     Generate 3-5 personalized property recommendations that best match the user's criteria. For each recommendation, provide:
 
                         1. Property Name: [Title of the property]
-                        2. Property URL: [Direct link to the listing]
+                        2. Property URL: [Direct url to the listing]
                         3. Perfect Match: [1-2 sentences explaining why this property specifically addresses the user's needs]
                         4. Standout Features:
                         • [3 key advantages/unique selling points]
@@ -286,8 +278,8 @@ class LLM():
                     - Focus exclusively on the properties' merits relative to the user's requirements
                     - Provide accurate information based solely on the available data
                     - Do not ask follow-up questions
+                    - Present facts without recommendations for further action
                     - Do not include disclaimers, suggestions for further assistance, or closing statements
-                    
                     """
             },
             {

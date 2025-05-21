@@ -29,7 +29,7 @@ if user_input:
     
     # Display user message
     with st.chat_message("user"):
-        st.write(user_input)
+        st.markdown(user_input)
     
     # Show a spinner while waiting for the response
     with st.chat_message("assistant"):
@@ -51,8 +51,9 @@ if user_input:
                 if response.status_code == 200:
                     logger.info(response)
                     llm_response = response.json().get("result", "Sorry, I couldn't process that.")
+                    llm_response = str(llm_response)
                     logger.info(llm_response)
-                    st.write(llm_response)
+                    st.markdown(llm_response)
                     # Add assistant response to chat history
                     st.session_state.messages.append({"role": "assistant", "content": llm_response})
                 else:
