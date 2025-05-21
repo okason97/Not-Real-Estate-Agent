@@ -25,6 +25,8 @@ class LLM():
         last_message = state["query"][-1]
         url_llm = self.model.with_structured_output(MessageURL)
 
+
+        print("Calling URL agent")
         result = url_llm.invoke([
             {
                 "role": "system",
@@ -99,12 +101,14 @@ class LLM():
                 "content": last_message.content
             }
         ])
+        print("Received URL agent response")
         return {"url": result.url}
 
     def query_data_agent(self, state: AgentState):
         last_message = state["query"][-1]
         query_data_llm = self.model.with_structured_output(PropertySearchParams)
 
+        print("Calling query data agent")
         result = query_data_llm.invoke([
             {
                 "role": "system",
@@ -178,12 +182,14 @@ class LLM():
                 "content": last_message.content
             }
         ])
-        
+        print("Received query data agent response")
+
         return {"query_data": result}
 
     def analize_agent(self, state: AgentState):
         last_message = state["query"][-1]
 
+        print("Calling analysis agent")
         result = self.model.invoke([
             {
                 "role": "system",
@@ -242,11 +248,13 @@ class LLM():
             }
         ])
 
+        print("Received analysis agent response")
         return {"analysis": [result]}
 
     def recomend_agent(self, state: AgentState):
         last_message = state["query"][-1]
 
+        print("Calling recommendation agent")
         result = self.model.invoke([
             {
                 "role": "system",
@@ -295,4 +303,5 @@ class LLM():
             }
         ])
         
+        print("Received recommendation agent response")
         return {"query": [result]}

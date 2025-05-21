@@ -8,7 +8,7 @@ Resources:
       PackageType: Image
       ImageUri: nrea
       MemorySize: 3072  
-      Timeout: 2000
+      Timeout: 20000
       Environment:
         Variables:
           OLLAMA_HOST: "host.docker.internal:11434"

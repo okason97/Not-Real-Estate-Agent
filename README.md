@@ -65,8 +65,8 @@ This application uses a state graph architecture with the following components:
 
 1. Build the Docker image or use SAM (Serverless Application Model):
    ```bash
-   docker build --provenance=false --platform linux/amd64 -t nrea:rapid-x86_64 .
-   sam build
+   docker build --no-cache --provenance=false --platform linux/amd64 -t nrea .
+   sam build --no-cached
    ```
 
 2. Open Ollama server (Optional):

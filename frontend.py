@@ -1,5 +1,8 @@
 import streamlit as st
 import requests
+from streamlit.logger import get_logger
+
+logger = get_logger(__name__)
 
 # Set up the page configuration
 st.set_page_config(page_title="Not-Real-Estate-Agent", layout="centered")
@@ -46,7 +49,9 @@ if user_input:
                 
                 # Process the response
                 if response.status_code == 200:
-                    llm_response = response.json().get("response", "Sorry, I couldn't process that.")
+                    logger.info(response)
+                    llm_response = response.json().get("result", "Sorry, I couldn't process that.")
+                    logger.info(llm_response)
                     st.write(llm_response)
                     # Add assistant response to chat history
                     st.session_state.messages.append({"role": "assistant", "content": llm_response})

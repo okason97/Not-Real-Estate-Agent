@@ -19,7 +19,6 @@ async def process_input(payload: Dict[str, Any] = Body(...)) -> Dict[str, Any]:
         
         # Extract input from payload
         user_input = payload.get("prompt", "")
-        #user_input = "quiero un depto en la plata para una persona moderno con cochera"
 
         # Process the input (example usage of HumanMessage and build_graph)
         logger.info("Attempting to build graph...")
@@ -34,7 +33,7 @@ async def process_input(payload: Dict[str, Any] = Body(...)) -> Dict[str, Any]:
         state = graph.invoke({"query": [HumanMessage(content=user_input)]})
         logger.info("Graph invoked successfully")
 
-        save_state(state)
+        print(state["query"][-1])
         
         return {
             "status": "success",
