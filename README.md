@@ -63,7 +63,7 @@ This application uses a state graph architecture with the following components:
 
 ### 💻 Using the app
 
-1. Build the Docker image or use SAM (Serverless Application Model):
+1. Build the Docker image and SAM (Serverless Application Model):
    ```bash
    docker build --no-cache --provenance=false --platform linux/amd64 -t nrea .
    sam build --no-cached
