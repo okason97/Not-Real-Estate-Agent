@@ -116,6 +116,7 @@ You can customize the application by:
 
 ## 📊 Future Improvements
 
+- [ ] Add a plan-and-execute architecture for the agents 
 - [ ] Implement historical price tracking and other useful information for the analysis agent
 - [ ] Add visualization tools for property comparisons
 - [ ] Support for additional property listing websites
