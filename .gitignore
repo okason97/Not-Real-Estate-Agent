@@ -6,7 +6,6 @@ dist/
 wheels/
 *.egg-info
 *.html
-*.json
 packages/
 .pytest_cache/
 event.json
@@ -17,6 +16,9 @@ response.json
 .vscode/
 .aws-sam/
 old_nb/
+analysis.md
+result.md
+apartments.json
 
 # Virtual environments
 .venv
