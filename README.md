@@ -21,7 +21,7 @@ This application uses a state graph architecture with the following components:
 ## 📋 Prerequisites
 
 - Python 3.13+
-- Required Python packages (install via `pip install -r requirements.txt`)
+- Required Python packages (install via `pip install -r requirements.txt` or `uv add -r requirements.txt`)
 - Docker (Optional, for web gui)
 - AWS Serverless Application Model Command Line Interface (AWS SAM CLI) (Optional, for web gui)
 - Ollama gemma3:12b and apropiate hardware (Optional)
