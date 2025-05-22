@@ -39,14 +39,16 @@ This application uses a state graph architecture with the following components:
    uv add -r requirements.txt
    ```
 
-3. Set up environment variables (Not used now, necessary if you want to use other models):
+### 🏃 Running
+
+1. Set up environment variables (If you want to use an API):
    ```bash
    # Create .env file
    touch .env
    # Add necessary environment variables
    ```
 
-4. Ensure you have Ollama installed and running with the gemma3:12b model:
+2. Or install and run Ollama with the gemma3:12b model locally:
    ```bash
    # Install Ollama: https://ollama.com/
    # Then pull the model
@@ -54,9 +56,7 @@ This application uses a state graph architecture with the following components:
    ollama run gemma3:12b
    ```
 
-### 🏃 Running
-
-1. Run the notebook:
+3. Run the notebook:
    ```bash
    code agent.ipynb
    ```
