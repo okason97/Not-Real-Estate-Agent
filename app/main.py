@@ -19,11 +19,13 @@ async def process_input(payload: Dict[str, Any] = Body(...)) -> Dict[str, Any]:
         
         # Extract input from payload
         user_input = payload.get("prompt", "")
+        model = payload.get("model", "ollama-remote")
+        api_key = payload.get("api_key", None)
 
         # Process the input (example usage of HumanMessage and build_graph)
         logger.info("Attempting to build graph...")
         try:
-            graph = build_graph(model='ollama-remote', temperature=0.0)
+            graph = build_graph(model=model, api_key=api_key, temperature=0.0)
             logger.info("Graph built successfully")
         except Exception as e:
             logger.error(f"Error building graph: {str(e)}")

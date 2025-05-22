@@ -2,11 +2,11 @@ from langgraph.graph import StateGraph, START, END
 from app.src.state import AgentState
 from app.src.nodes import LLM, scrape_node
 
-def build_graph(model='ollama', temperature=0.0):
+def build_graph(model='ollama', api_key=None, temperature=0.0):
 
     graph_builder = StateGraph(AgentState)
 
-    llm = LLM(model=model, temperature=temperature)
+    llm = LLM(model=model, api_key=api_key, temperature=temperature)
 
     # The first argument is the unique node name
     # The second argument is the function or object that will be called whenever
@@ -24,11 +24,11 @@ def build_graph(model='ollama', temperature=0.0):
 
     return graph_builder.compile()
 
-def build_url_graph(model='ollama', temperature=0.0):
+def build_url_graph(model='ollama', api_key=None, temperature=0.0):
 
     graph_builder = StateGraph(AgentState)
 
-    llm = LLM(model=model, temperature=temperature)
+    llm = LLM(model=model, api_key=api_key, temperature=temperature)
 
     # The first argument is the unique node name
     # The second argument is the function or object that will be called whenever
@@ -40,11 +40,11 @@ def build_url_graph(model='ollama', temperature=0.0):
 
     return graph_builder.compile()
 
-def build_scrape_graph(model='ollama', temperature=0.0):
+def build_scrape_graph(model='ollama', api_key=None, temperature=0.0):
 
     graph_builder = StateGraph(AgentState)
 
-    llm = LLM(model=model, temperature=temperature)
+    llm = LLM(model=model, api_key=api_key, temperature=temperature)
 
     # The first argument is the unique node name
     # The second argument is the function or object that will be called whenever
@@ -59,11 +59,11 @@ def build_scrape_graph(model='ollama', temperature=0.0):
     return graph_builder.compile()
 
 
-def build_scrape_graphv2(model='ollama', temperature=0.0):
+def build_scrape_graphv2(model='ollama', api_key=None, temperature=0.0):
 
     graph_builder = StateGraph(AgentState)
 
-    llm = LLM(model=model, temperature=temperature)
+    llm = LLM(model=model, api_key=api_key, temperature=temperature)
 
     # The first argument is the unique node name
     # The second argument is the function or object that will be called whenever
@@ -77,11 +77,11 @@ def build_scrape_graphv2(model='ollama', temperature=0.0):
 
     return graph_builder.compile()
 
-def build_analize_graph(model='ollama', temperature=0.0):
+def build_analize_graph(model='ollama', api_key=None, temperature=0.0):
 
     graph_builder = StateGraph(AgentState)
 
-    llm = LLM(model=model, temperature=temperature)
+    llm = LLM(model=model, api_key=api_key, temperature=temperature)
 
     # The first argument is the unique node name
     # The second argument is the function or object that will be called whenever

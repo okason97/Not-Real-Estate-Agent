@@ -18,8 +18,8 @@ def scrape_node(state: AgentState):
     return {"properties": properties}
 
 class LLM():
-    def __init__(self, model='ollama', temperature=0.0):
-        self.model = init_llm(model=model, temperature=temperature)
+    def __init__(self, model='ollama', api_key=None, temperature=0.0):
+        self.model = init_llm(model=model, api_key=api_key, temperature=temperature)
 
     def url_agent(self, state: AgentState):
         last_message = state["query"][-1]
@@ -246,65 +246,6 @@ class LLM():
                     - URLs are direct links to property listings
                     - Price assessments use only: below_market/at_market/premium
                     - Location advantages/concerns are factual, comma-separated
-
-                    ---
-
-                    EXAMPLE (for reference):
-                    
-                    Input Query Example:
-                    "Looking for a 2-3 bedroom apartment in La Plata, budget 80,000-120,000 USD, prefer areas near UNLP, good public transport access"
-
-                    Expected Output Format:
-
-                    ### 1. MARKET_OVERVIEW:
-                    • Price_range: 45,000,000-180,000,000 ARS / 50,000-200,000 USD
-                    • Average_price_per_sqm: 1,800 ARS / 2,000 USD
-                    • Market_context: Stable residential market with 15% annual price growth, high demand near university areas
-
-                    ### 2. PROPERTY_MATCHES:
-
-                    **Property 1:**
-                    • property_id: LP_001_2BR_Centro
-                    • property_url: https://www.zonaprop.com.ar/propiedades/departamento-venta-la-plata-centro-45123
-                    • match_reasons: 2 bedrooms, within budget, centro location, near UNLP
-                    • price_value_assessment: at_market
-                    • location_advantages: walking distance to UNLP, multiple bus lines, commercial area, banking services
-                    • location_concerns: high traffic noise, limited parking
-                    • location_quality: 8
-                    • standout_features: renovated kitchen, balcony, building amenities
-                    • concerns: no parking space, older building infrastructure
-                    • match_score: 8
-
-                    **Property 2:**
-                    • property_id: LP_002_3BR_Tolosa
-                    • property_url: https://www.argenprop.com/propiedades/casa-venta-tolosa-la-plata-67890
-                    • match_reasons: 3 bedrooms, within budget, residential area, bus access to UNLP
-                    • price_value_assessment: below_market
-                    • location_advantages: quiet residential area, nearby schools, green spaces, bus connections
-                    • location_concerns: 25-minute commute to UNLP, limited nightlife
-                    • location_quality: 7
-                    • standout_features: private garden, garage, recently renovated
-                    • concerns: requires minor repairs, farther from university
-                    • match_score: 7
-
-                    **Property 3:**
-                    • property_id: LP_003_2BR_Bosques
-                    • property_url: https://www.properati.com.ar/detalle/departamento-bosques-la-plata-12345
-                    • match_reasons: 2 bedrooms, premium location, near green areas
-                    • price_value_assessment: premium
-                    • location_advantages: near Paseo del Bosque, excellent public transport, safe neighborhood, recreational facilities
-                    • location_concerns: higher cost of living, limited parking
-                    • location_quality: 9
-                    • standout_features: modern building, gym, security, city views
-                    • concerns: above initial budget, HOA fees
-                    • match_score: 6
-
-                    ### 3. COMPARATIVE_INSIGHTS:
-                    • best_value: LP_002_3BR_Tolosa
-                    • best_location: LP_003_2BR_Bosques
-                    • best_condition: LP_003_2BR_Bosques
-                    • best_investment: LP_001_2BR_Centro
-                    • unique_opportunity: LP_002_3BR_Tolosa, underpriced house with expansion potential
                 """
             },
             {
@@ -340,18 +281,41 @@ class LLM():
 
                 OUTPUT FORMAT for each recommendation:
 
-                **Property Name:** [Exact title from listing]
+                ### Property Name: [Descriptive name of the property, e.g., "Modern 3BR Condo in Mission Bay"]
+                [LEAVE BLANK LINE HERE]
+
                 **URL:** [Complete URL from listing]
-                **Match Score:** [Brief explanation of why this property fits the user's criteria]
+                [LEAVE BLANK LINE HERE]
 
-                **Key Features:**
-                • [Specific detail 1 - include numbers/measurements when available]
-                • [Specific detail 2 - highlight unique amenities or location benefits]  
-                • [Specific detail 3 - mention standout characteristics]
+                **Match Score:** [numerical 1-10] [Brief explanation of why this property fits the user's criteria]
+                [LEAVE BLANK LINE HERE]
 
-                **Considerations:**
-                • [Potential limitation 1]
-                • [Potential limitation 2]
+                **Location Score:** [numerical 1-10] [Brief explanation of the location's advantages and disadvantages]
+                [LEAVE BLANK LINE HERE]  
+
+                **Price Score:** [numerical 1-10] [Brief explanation of the price in relation to the market]
+                [LEAVE BLANK LINE HERE]
+
+                #### Key Features:
+                [LEAVE BLANK LINE HERE] 
+
+                 • [Specific detail 1 - include numbers/measurements when available]
+                [LEAVE BLANK LINE HERE]
+
+                 • [Specific detail 2 - highlight unique amenities or location benefits]  
+                [LEAVE BLANK LINE HERE]
+
+                 • [Specific detail 3 - mention standout characteristics]
+                [LEAVE BLANK LINE HERE]
+
+                #### Considerations:
+                [LEAVE BLANK LINE HERE]
+
+                 • [Potential limitation 1]
+                [LEAVE BLANK LINE HERE]
+
+                 • [Potential limitation 2]
+                [LEAVE BLANK LINE HERE]
 
                 ---
 
@@ -363,22 +327,37 @@ class LLM():
                 - No follow-up questions or closing statements
                 - No disclaimers or suggestions for additional help
 
+                OUTPUT DESTINATION: This will be displayed in markdown format where spacing is critical for readability.
+                Maintain all line breaks and spacing exactly as specified.
+
                 ---
 
                 EXAMPLE OUTPUT (for reference):
 
-                **Property Name:** Modern 3BR Condo in Mission Bay
+                ### Property Name: Modern 3BR Condo in Mission Bay
+                
                 **URL:** https://example.com/listing/12345
+                
                 **Match Score:** 8/10 Strong fit for user’s desire for a modern 3-bedroom near tech hubs, with walkable access to parks and transit.
+                
+                **Location Score:** 8/10 Located in a vibrant area with easy access to public transport, restaurants, and parks, but can be noisy during events.
+                
+                **Price Score:** 7/10 Priced slightly above average for the area, but offers modern amenities and a desirable location.
 
-                **Key Features:**
-                • 1,450 sq ft with open-concept kitchen and floor-to-ceiling windows
-                • Rooftop pool and gym access included in HOA
-                • 5-minute walk to Caltrain and Oracle Park
+                #### Key Features:
+               
+                 • 1,450 sq ft with open-concept kitchen and floor-to-ceiling windows
+               
+                 • Rooftop pool and gym access included in HOA
+               
+                 • 5-minute walk to Caltrain and Oracle Park
 
-                **Considerations:**
-                • HOA fee is relatively high at $820/month
-                • Limited street parking in surrounding area
+                
+                #### Considerations:
+              
+                  • HOA fee is relatively high at $820/month
+              
+                  • Limited street parking in surrounding area
                 
                 """
             },
